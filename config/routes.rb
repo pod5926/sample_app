@@ -7,4 +7,8 @@ Rails.application.routes.draw do
   #7章
   resources :users
   post '/signup',  to: 'users#create'
+  #8章
+  get    '/login',   to: 'sessions#new'
+  post   '/login',   to: 'sessions#create'
+  delete '/logout',  to: 'sessions#destroy'
 end
