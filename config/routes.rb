@@ -1,20 +1,20 @@
 Rails.application.routes.draw do
-  get 'password_resets/new'
-
-  get 'password_resets/edit'
-
-  root 'static_pages#home'
-  get  '/help',    to: 'static_pages#help'
-  get  '/about',   to: 'static_pages#about'
-  get  '/contact', to: 'static_pages#contact'
-  get  '/signup',  to: 'users#new'  #新規登録
-  #7章
-  resources :users
-  post '/signup',  to: 'users#create'
-  #8章
+  root   'static_pages#home'
+  get    '/help',    to: 'static_pages#help'
+  get    '/about',   to: 'static_pages#about'
+  get    '/contact', to: 'static_pages#contact'
+  get    '/signup',  to: 'users#new'
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
+  resources :users do
+    member do
+      get :following, :followers
+      #HTTPリクエスト	URL	                アクション	名前付きルート
+      #GET	          /users/1/following	following	  following_user_path(1)
+      #GET	          /users/1/followers	followers	  followers_user_path(1)
+    end
+  end
 
   #アカウント有効化に使うリソース (editアクション)
   resources :account_activations, only: [:edit]
@@ -22,4 +22,6 @@ Rails.application.routes.draw do
   resources :password_resets,     only: [:new, :create, :edit, :update]
   #マイクロポストリソースのルーティング
   resources :microposts,          only: [:create, :destroy]
+  #Relationshipリソース用のルーティングを追加する
+  resources :relationships,       only: [:create, :destroy]
 end
