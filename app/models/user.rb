@@ -6,7 +6,6 @@ class User < ApplicationRecord
                                    foreign_key: "follower_id",
                                    dependent:   :destroy
   has_many :following, through: :active_relationships,  source: :followed
-  has_many :following, through: :active_relationships,  source: :followed
   #フォロワー
   has_many :passive_relationships, class_name:  "Relationship",
                                    foreign_key: "followed_id",
@@ -53,7 +52,7 @@ class User < ApplicationRecord
   # トークンがダイジェストと一致したらtrueを返す
   def authenticated?(attribute, token)
     digest = send("#{attribute}_digest")
-    return false if digest.nil?
+#    return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)
   end
 
