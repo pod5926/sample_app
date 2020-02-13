@@ -23,6 +23,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      #ココから
+      @user.activate
       log_in @user
       flash[:success] = "Account activated!"
       redirect_to @user
